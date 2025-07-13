@@ -15,9 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-
-
 
 @Service
 @RequiredArgsConstructor
@@ -29,24 +26,11 @@ public class AccountServiceImpl implements AccountService {
     private final CustomerRepository customerRepository;
 
 
-    @Override
-    public AccountDto updateAccount(String actNo, UpdateAccountRequest updateAccountRequest) {
-
-        Account account = accountRepository.findByAccountByAccountNumber(actNo)
-                .orElseThrow(()-> new ResponseStatusException
-                (HttpStatus.NOT_FOUND, "Account not found"));
-
-        accountMapper.toAccountPartially(updateAccountRequest, account);
-      account =  accountRepository.save(account);
-
-        return accountMapper.maptoAccountDto(account);
-    }
-
 
 
     @Override
-    public AccountDto findByActNo(String actNo) {
-        return accountRepository.findByAccountByAccountNumber(actNo)
+    public AccountDto findByAccountNumber(String actNo) {
+        return accountRepository.findByAccountNumber(actNo)
                 .map(accountMapper::maptoAccountDto)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
@@ -74,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteByActNo(String actNo) {
-        Account account = accountRepository.findByAccountByAccountNumber(actNo)
+        Account account = accountRepository.findByAccountNumber(actNo)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Account with number " + actNo + " not found."
@@ -87,7 +71,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void disableAccount(String actNo) {
-        Account account = accountRepository.findByAccountByAccountNumber(actNo)
+        Account account = accountRepository.findByAccountNumber(actNo)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Account with number " + actNo + " not found."
@@ -100,9 +84,25 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public List<Customer> findByCustomer() {
-        return customerRepository.findAll().stream()
-                .filter(customer -> customer.getAccounts() != null && !customer.getAccounts().isEmpty())
-                .toList();
+    public Customer findByCustomer(Customer customer) {
+        Account account = accountRepository.findByAccountNumber(String.valueOf(customer))
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+
+        return account.getCustomer();
+    }
+
+    @Override
+    public AccountDto updateAccount(String actNo, UpdateAccountRequest updateAccountRequest) {
+        Account account = accountRepository.findByAccountNumber(actNo)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
+
+        accountMapper.toAccountPartially(updateAccountRequest, account);
+       account = accountRepository.save(account);
+
+       return accountMapper.maptoAccountDto(account);
+
+
+
+
     }
 }
