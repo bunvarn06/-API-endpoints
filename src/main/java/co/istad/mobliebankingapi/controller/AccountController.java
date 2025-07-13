@@ -7,6 +7,7 @@ import co.istad.mobliebankingapi.dto.UpdateAccountRequest;
 import co.istad.mobliebankingapi.service.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -36,7 +37,7 @@ public class AccountController {
 
 
     @GetMapping({"/{actNo}"})
-    public AccountDto findByAccountNumber(
+    public AccountDto findByActNo(
            @PathVariable String actNo) {
       return accountService.findByAccountNumber(actNo);
     }
@@ -45,5 +46,16 @@ public class AccountController {
     public Customer findByCustomer(@PathVariable Customer customer) {
       return accountService.findByCustomer(customer);
     }
+
+  @DeleteMapping("/{actNo}")
+  public ResponseEntity<Void> deleteAccount(@PathVariable String actNo) {
+    accountService.deleteByActNo(actNo);
+    return ResponseEntity.noContent().build();
+  }
+  @PutMapping("/{actNo}/disable")
+  public ResponseEntity<Void> disableAccount(@PathVariable String actNo) {
+    accountService.disableAccount(actNo);
+    return ResponseEntity.ok().build();
+  }
 
 }

@@ -30,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDto findByAccountNumber(String actNo) {
-        return accountRepository.findByAccountNumber(actNo)
+        return accountRepository.findByActNo(actNo)
                 .map(accountMapper::maptoAccountDto)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
@@ -58,7 +58,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteByActNo(String actNo) {
-        Account account = accountRepository.findByAccountNumber(actNo)
+        Account account = accountRepository.findByActNo(actNo)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Account with number " + actNo + " not found."
@@ -71,7 +71,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void disableAccount(String actNo) {
-        Account account = accountRepository.findByAccountNumber(actNo)
+        Account account = accountRepository.findByActNo(actNo)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Account with number " + actNo + " not found."
@@ -85,7 +85,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Customer findByCustomer(Customer customer) {
-        Account account = accountRepository.findByAccountNumber(String.valueOf(customer))
+        Account account = accountRepository.findByActNo(String.valueOf(customer))
                 .orElseThrow(() -> new RuntimeException("Account not found"));
 
         return account.getCustomer();
@@ -93,7 +93,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDto updateAccount(String actNo, UpdateAccountRequest updateAccountRequest) {
-        Account account = accountRepository.findByAccountNumber(actNo)
+        Account account = accountRepository.findByActNo(actNo)
                 .orElseThrow(() -> new RuntimeException("Account not found"));
 
         accountMapper.toAccountPartially(updateAccountRequest, account);
