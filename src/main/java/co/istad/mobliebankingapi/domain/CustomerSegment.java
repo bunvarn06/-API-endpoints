@@ -5,23 +5,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
-public class AccountType {
-
+@Table(name = "customer_segment")
+public class CustomerSegment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    @Column(length = 100 ,unique=true)
-    private String type;
-
-    @Column(nullable = false)
-    private Boolean isDeleted;
+    private String segment ;
+    private String description ;
+    private boolean isDeleted ;
 
 
-
+    @OneToOne(optional = false)
+    private Customer customer ;
 }

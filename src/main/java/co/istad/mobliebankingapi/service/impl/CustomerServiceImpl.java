@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -24,10 +25,24 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CustomerServiceImpl implements CustomerService {
 
-
-
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
+
+    @Override
+    public List<Customer> findAllByIsDeletedFalse() {
+        return List.of();
+    }
+
+
+    @Transactional
+    @Override
+    public void disableByPhoneNumber(String phoneNumber) {
+        if(!customerRepository.existsByPhoneNumber(phoneNumber)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Phone number not found");
+        }
+        customerRepository.disableByPhoneNumber(phoneNumber);
+    }
+
 
 
     @Override
@@ -54,14 +69,11 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerResponse> getAllCustomers() {
-        return customerRepository.findAll().stream()
-                .map(customer -> CustomerResponse.builder()
-                        .email(customer.getEmail())
-                        .gender(customer.getGender())
-                        .fullName(customer.getFullName())
-                        .build())
-                .collect(Collectors.toList());
+        return customerRepository.findAll()
+                .stream()
+                .map(customerMapper::mapcustomerToCustomerResponse).toList();
     }
+
 
     @Override
     public CustomerResponse createNew(CreateCustomerRequest createCustomerRequest) {

@@ -2,6 +2,7 @@ package co.istad.mobliebankingapi.controller;
 
 import co.istad.mobliebankingapi.dto.CreateCustomerRequest;
 import co.istad.mobliebankingapi.dto.CustomerResponse;
+import co.istad.mobliebankingapi.repository.CustomerRepository;
 import co.istad.mobliebankingapi.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,15 @@ import java.util.List;
 public class CustomerController {
 
     private final CustomerService customerService;
+    private final CustomerRepository customerRepository;
 
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PutMapping("/{phoneNumber}")
+    public void disableByPhoneNumber(@PathVariable
+                                                     String phoneNumber) {
+        customerService.disableByPhoneNumber(phoneNumber);
+    }
 
 
     @GetMapping("/{phoneNumber}")
