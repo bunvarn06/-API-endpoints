@@ -24,7 +24,7 @@ public class KYC {
     private Boolean isDeleted;
 
 
-    @OneToOne
+    @OneToOne(mappedBy = "kyc")
     private Customer customer;
 
 }

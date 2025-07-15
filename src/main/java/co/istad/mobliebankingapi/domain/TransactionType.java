@@ -11,15 +11,17 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Entity
-public class TransitionType {
+public class TransactionType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false, length = 150)
-    private String name;
-    private String description;
+    @Column(unique=true,nullable=false,length=100)
+    private String type;
+
+    @Column(nullable=false)
+    private Boolean isDeleted;
 
     @OneToMany(mappedBy = "transitionType")
-    private List<Transition> transition;
+    private List<Transaction> transition;
 }

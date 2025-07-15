@@ -16,11 +16,17 @@ public interface CustomerMapper {
 //    Response is target.
 //    Customer is source
 
+    @Mapping(target = "customerSegment", ignore = true)
+    @Mapping(target = "kyc", ignore = true)
+    Customer fromCreateCustomerRequestToCustomer(CreateCustomerRequest customerRequest);
+
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void toCustomerPartially(
             UpdateCustomerRequest updateCustomerRequest,
           @MappingTarget Customer customer
     );
     CustomerResponse mapcustomerToCustomerResponse(Customer customer);
+    CustomerResponse fromCustomerToCustomerResponse(Customer customer);
+
     Customer fromCreateCustomerRequest(CreateCustomerRequest createCustomerRequest);
 }

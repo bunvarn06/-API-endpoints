@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Setter
 @Getter
@@ -18,13 +19,20 @@ public class Account {
     private Integer id;
     private String actNo;
     private BigDecimal balance;
+
+    @Column(nullable = false)
     private BigDecimal overLimit;
     private Boolean isDeleted;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "cus_id", referencedColumnName = "id")
     private Customer customer;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     private AccountType accountType;
+
+
+    @OneToMany(mappedBy = "sender")
+    private List<Transaction> transactions;
 
 }

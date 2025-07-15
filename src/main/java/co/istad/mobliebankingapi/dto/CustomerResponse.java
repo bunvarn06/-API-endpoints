@@ -4,6 +4,8 @@ import lombok.Builder;
 
 @Builder
 public record CustomerResponse(
+        String nationalCardId,
+        String segment,
         String fullName,
         String gender,
         String email,

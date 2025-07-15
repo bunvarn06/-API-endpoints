@@ -43,7 +43,12 @@ public class CustomerController {
 
     @GetMapping
     public List<CustomerResponse> getAllCustomers() {
+
         return customerService.getAllCustomers();
+    }
+
+    public List<CustomerResponse> findAll(){
+        return customerService.findAll();
     }
 
 

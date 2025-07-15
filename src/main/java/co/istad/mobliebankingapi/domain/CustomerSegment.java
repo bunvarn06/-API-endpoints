@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,11 +17,16 @@ public class CustomerSegment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(nullable = false,unique = true,length = 100)
     private String segment ;
+
     private String description ;
+
+    @Column(nullable = false)
     private boolean isDeleted ;
 
 
-    @OneToOne(optional = false)
-    private Customer customer ;
+    @OneToMany(mappedBy ="customerSegment" )
+   private List<Customer> customers ;
 }

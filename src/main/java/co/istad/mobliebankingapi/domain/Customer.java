@@ -40,9 +40,12 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Account> accounts;
 
-    @OneToOne(mappedBy = "customer")
+    @OneToOne(cascade = CascadeType.ALL)
     private KYC kyc;
 
     @ManyToOne
     private CustomerSegment customerSegment;
+
+    @Column(nullable = false,unique = true)
+    private String nationalCard;
 }

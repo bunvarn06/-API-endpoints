@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface CustomerService {
 
-    List<Customer> findAllByIsDeletedFalse();
+//    List<Customer> findAllByIsDeletedFalse();
 
     void disableByPhoneNumber(String phoneNumber);
 
@@ -21,6 +21,8 @@ public interface CustomerService {
     CustomerResponse findByPhoneNumber(String phoneNumber);
 
     List<CustomerResponse> getAllCustomers();
+
+    List<CustomerResponse> findAll();
 
     CustomerResponse createNew(CreateCustomerRequest createCustomerRequest);
 }
