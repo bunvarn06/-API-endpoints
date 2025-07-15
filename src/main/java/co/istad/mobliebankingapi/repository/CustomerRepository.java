@@ -30,7 +30,7 @@ public interface CustomerRepository extends JpaRepository<Customer,Long> {
     boolean existsByPhoneNumber(String phone);
 
     Optional<Customer> findByPhoneNumberAndIsDeletedFalse(String phoneNumber);
-    Optional<Customer> findByNationalCardId(String nationalCardId);
+
 }
 
 

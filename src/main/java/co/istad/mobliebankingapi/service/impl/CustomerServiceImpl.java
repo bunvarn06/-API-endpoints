@@ -93,7 +93,7 @@ public class CustomerServiceImpl implements CustomerService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Phone number already exists");
         }
         CustomerSegment customerSegment = customerSegmentRepository
-                .getCustomerSegmentBySegmentName(createCustomerRequest.segment())
+                .getCustomerSegmentBySegment(createCustomerRequest.segment())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Segment not found"));
 
         Customer customer = customerMapper.fromCreateCustomerRequestToCustomer(createCustomerRequest);
@@ -118,4 +118,5 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
     }
+
 }
