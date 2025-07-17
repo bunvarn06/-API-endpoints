@@ -1,7 +1,8 @@
 package co.istad.mobliebankingapi.controller;
 
 import co.istad.mobliebankingapi.domain.Customer;
-import co.istad.mobliebankingapi.dto.AccountDto;
+import co.istad.mobliebankingapi.dto.AccountResponse;
+import co.istad.mobliebankingapi.dto.CreateAccountRequest;
 import co.istad.mobliebankingapi.dto.CreateNewAccount;
 import co.istad.mobliebankingapi.dto.UpdateAccountRequest;
 import co.istad.mobliebankingapi.service.AccountService;
@@ -19,25 +20,31 @@ public class AccountController {
     private final AccountService accountService;
 
 
+  @ResponseStatus(HttpStatus.CREATED)
+  @PostMapping
+  public AccountResponse createNew(@RequestBody CreateAccountRequest createAccountRequest) {
+    return accountService.createNew(createAccountRequest);
+  }
+
 
 
   @PutMapping
-    public AccountDto updateAccount(
+    public AccountResponse updateAccount(
             @RequestBody UpdateAccountRequest updateAccountRequest) {
         return accountService.updateAccount(updateAccountRequest.actNo(), updateAccountRequest);
     }
 
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
-    public AccountDto createAccount(
+    @PostMapping("/new")
+    public AccountResponse createAccount(
             @RequestBody CreateNewAccount createNewAccount) {
         return accountService.createAccount(createNewAccount);
     }
 
 
     @GetMapping({"/{actNo}"})
-    public AccountDto findByActNo(
+    public AccountResponse findByActNo(
            @PathVariable String actNo) {
       return accountService.findByAccountNumber(actNo);
     }

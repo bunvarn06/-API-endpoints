@@ -1,7 +1,8 @@
 package co.istad.mobliebankingapi.service;
 
 import co.istad.mobliebankingapi.domain.Customer;
-import co.istad.mobliebankingapi.dto.AccountDto;
+import co.istad.mobliebankingapi.dto.AccountResponse;
+import co.istad.mobliebankingapi.dto.CreateAccountRequest;
 import co.istad.mobliebankingapi.dto.CreateNewAccount;
 import co.istad.mobliebankingapi.dto.UpdateAccountRequest;
 
@@ -9,11 +10,12 @@ import co.istad.mobliebankingapi.dto.UpdateAccountRequest;
 public interface AccountService {
 
 
+    AccountResponse createNew(CreateAccountRequest createAccountRequest);
 
-    AccountDto findByAccountNumber(String actNo);
+    AccountResponse findByAccountNumber(String actNo);
 
 
-    AccountDto createAccount(CreateNewAccount createNewAccount);
+    AccountResponse createAccount(CreateNewAccount createNewAccount);
 
 
     void deleteByActNo(String actNo);
@@ -23,7 +25,7 @@ public interface AccountService {
 
     Customer findByCustomer(Customer customer);
 
-    AccountDto updateAccount(String actNo, UpdateAccountRequest updateAccountRequest);
+    AccountResponse updateAccount(String actNo, UpdateAccountRequest updateAccountRequest);
 
 
 }

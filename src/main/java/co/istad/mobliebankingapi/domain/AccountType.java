@@ -27,7 +27,6 @@ public class AccountType {
 
 
     @OneToMany(mappedBy = "accountType")
-    @Column(nullable = true)
     private List<Account> accounts;
 
 }
