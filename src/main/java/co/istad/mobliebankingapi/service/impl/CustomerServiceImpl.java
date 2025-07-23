@@ -83,6 +83,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
 
+    @Override
     public CustomerResponse createNew(CreateCustomerRequest createCustomerRequest) {
 
         if (customerRepository.existsByEmail(createCustomerRequest.email())) {
